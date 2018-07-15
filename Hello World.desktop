@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Hello World
+Comment=YooHoo!
+Exec=./helloworld.py
+Icon=text-x-python
+Path=
+Terminal=false
+StartupNotify=false
