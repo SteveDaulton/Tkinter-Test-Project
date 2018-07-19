@@ -31,18 +31,16 @@ class About(tk.Toplevel):
         self.close = tk.Button(self, text="Close", command=self.destroy)
         self.close.pack(side="bottom")
 
-        link.bind("<Button-1>",
-                  lambda event, url=self.URL: webbrowser.open_new(url))
-
-        link.bind("<Enter>", partial(self.mouseover, link,
-                                     **LINK_KWARGS))
-        link.bind("<Leave>", partial(self.mouseover, link,
-                                     **HOVER_KWARGS))
+        # Bind web link label
+        link.bind("<Button-1>", lambda event, url=self.URL: webbrowser.open_new(url))
+        link.bind("<Enter>", partial(self.mouseover, link, **LINK_KWARGS))
+        link.bind("<Leave>", partial(self.mouseover, link, **HOVER_KWARGS))
 
     def message(self):
         """Message to display"""
-        message = ("EZ-Image by Steve Daulton.\n"
-                   "Version: %s") % self.version
+        message = ("EZ-Image version: %s\n"
+                   "by Steve Daulton.\n\n"
+                   "Released under the terms of GPL v3.") % self.version
         return message
 
     @staticmethod
