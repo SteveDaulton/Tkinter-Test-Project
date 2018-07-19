@@ -32,7 +32,7 @@ class About(tk.Toplevel):
         self.close.pack(side="bottom")
 
         link.bind("<Button-1>",
-                  lambda evt, url=self.URL: open_url(url, evt))
+                  lambda event, url=self.URL: webbrowser.open_new(url))
 
         link.bind("<Enter>", partial(self.mouseover, link,
                                      **LINK_KWARGS))
@@ -51,12 +51,3 @@ class About(tk.Toplevel):
         fnt = font.Font(widget, widget.cget("font"))
         fnt.configure(underline=kwargs['underscore'], weight=kwargs['weight'])
         widget.configure(fg=kwargs['color'], font=fnt)
-
-
-
-def open_url(url, event):  # pylint: disable=unused-argument
-    """Open web page
-    The event object is not used, but required for
-    binding the function to an event.
-    """
-    webbrowser.open_new(url)
