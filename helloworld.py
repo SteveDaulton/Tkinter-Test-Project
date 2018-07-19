@@ -11,6 +11,10 @@ import tkinter as tk
 import tkinter.font             # pylint: disable=unused-import
 from tkinter import filedialog as fd
 
+import dialogs
+
+
+VERSION = "0.0.1"
 
 class Application(tk.Frame):    # pylint: disable=too-many-ancestors
     """Main application."""
@@ -34,10 +38,10 @@ class Application(tk.Frame):    # pylint: disable=too-many-ancestors
         self.label.pack()
 
         # Buttons
-        self.quit = tk.Button(self, text="Quit", fg="red", overrelief="groove",
+        self.quit = tk.Button(self, text="Quit", fg="red2", overrelief="groove",
                               command=self.master.quit)
-        self.quit["activebackground"] = "red"
-        self.quit["activeforeground"] = "#fff"
+        self.quit["activebackground"] = "red2"
+        self.quit["activeforeground"] = "white"
         self.quit.pack(side="left")
 
     def create_menu(self):
@@ -57,7 +61,7 @@ class Application(tk.Frame):    # pylint: disable=too-many-ancestors
         # Help menu
         helpmenu = tk.Menu(menubar, tearoff=0)
         helpmenu.add_command(label="Help...")
-        helpmenu.add_command(label="About...")
+        helpmenu.add_command(label="About...", command=about_dialog)
         menubar.add_cascade(label="Help", menu=helpmenu)
 
         # display the menu
@@ -72,6 +76,10 @@ class Application(tk.Frame):    # pylint: disable=too-many-ancestors
                                                       ("all files", "*.*")))
         print(self.filename)
 
+
+def about_dialog():
+    """Call 'About' dialog"""
+    dialogs.About(VERSION)
 
 def set_fonts(base_size=None):
     """Configure Tkinter's standard fonts"""
