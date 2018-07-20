@@ -10,9 +10,19 @@ import webbrowser
 LINK_KWARGS = {'color': "red2", 'weight':"bold", 'underscore': False}
 HOVER_KWARGS = {'color': "blue", 'weight':"normal", 'underscore': True}
 
+
 class About(tk.Toplevel):
-    """About... window"""
+    """Toplevel window for the 'About...' dialog
+
+    Args:
+        version (str): Application version string
+
+    Attributes:
+        URL (str): The project home page URL
+
+    """
     URL = r"https://github.com/SteveDaulton/Tkinter-Test-Project"
+
     def __init__(self, version=None):
         tk.Toplevel.__init__(self)
         self.title("About EZ-Image")
@@ -37,15 +47,29 @@ class About(tk.Toplevel):
         link.bind("<Leave>", partial(self.mouseover, link, **HOVER_KWARGS))
 
     def message(self):
-        """Message to display"""
+        """Body text of 'About' dialog
+
+        Returns:
+            Body text for 'About' dialog
+
+        """
         message = ("EZ-Image version: %s\n"
                    "by Steve Daulton.\n\n"
                    "Released under the terms of GPL v3.") % self.version
         return message
 
     @staticmethod
-    def mouseover(widget, event, **kwargs):  # pylint: disable=unused-argument
-        """Modify the widget font on mouseover"""
+    def mouseover(widget, event, color="blue", weight="normal", underscore=True):  # pylint: disable=unused-argument
+        """Modify the widget font on mouseover
+
+        Args:
+            widget (widget): The widget to be modified.
+            event (event): Unused - required to bind to event.
+            color (str): Font color.
+            weight (str): Font weight.
+            underscore (bool): Underscore.
+
+        """
         fnt = font.Font(widget, widget.cget("font"))
-        fnt.configure(underline=kwargs['underscore'], weight=kwargs['weight'])
-        widget.configure(fg=kwargs['color'], font=fnt)
+        fnt.configure(underline=underscore, weight=weight)
+        widget.configure(fg=color, font=fnt)
