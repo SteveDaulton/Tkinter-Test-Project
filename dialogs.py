@@ -42,7 +42,7 @@ class About(tk.Toplevel):
         self.close.pack(side="bottom")
 
         # Bind web link label
-        link.bind("<Button-1>", lambda event, url=self.URL: webbrowser.open_new(url))
+        link.bind("<Button-1>", lambda event: webbrowser.open_new(self.URL))
         link.bind("<Enter>", partial(self.mouseover, link, **LINK_KWARGS))
         link.bind("<Leave>", partial(self.mouseover, link, **HOVER_KWARGS))
 
