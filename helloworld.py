@@ -106,7 +106,10 @@ def set_fonts(base_size=None):
 
 def main():
     """Initiate app and run it"""
-    root = tk.Tk()          # Create the root window
+    root = tk.Tk()          # Create the root window  
+    # Application icon
+    root.tk.call('wm', 'iconphoto', root._w, tk.PhotoImage(file='icon.gif'))
+
     root.resizable(0, 0)    #Disable resizing with mouse
     root.minsize("500", 0)
 
