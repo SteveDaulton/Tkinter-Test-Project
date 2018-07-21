@@ -9,6 +9,7 @@ Initial setup for the application occurs in Main(), which then launches the app.
 
 import tkinter as tk
 import tkinter.font             # pylint: disable=unused-import
+from tkinter import ttk
 from tkinter import filedialog as fd
 
 import dialogs
@@ -38,10 +39,7 @@ class Application(tk.Frame):    # pylint: disable=too-many-ancestors
         self.label.pack()
 
         # Buttons
-        self.quit = tk.Button(self, text="Quit", fg="red2", overrelief="groove",
-                              command=self.master.quit)
-        self.quit["activebackground"] = "red2"
-        self.quit["activeforeground"] = "white"
+        self.quit = ttk.Button(self, text="Quit", command=self.master.quit)
         self.quit.pack(side="left")
 
     def create_menu(self):
@@ -58,6 +56,11 @@ class Application(tk.Frame):    # pylint: disable=too-many-ancestors
         filemenu.add_command(label="Exit", command=self.master.quit)
         menubar.add_cascade(label="File", menu=filemenu)
 
+        # Options menu
+        optmenu = tk.Menu(menubar, tearoff=0)
+        optmenu.add_command(label="Interface...", command=self.gui_options)
+        menubar.add_cascade(label="Options", menu=optmenu)
+
         # Help menu
         helpmenu = tk.Menu(menubar, tearoff=0)
         helpmenu.add_command(label="Help...")
@@ -66,6 +69,9 @@ class Application(tk.Frame):    # pylint: disable=too-many-ancestors
 
         # display the menu
         self.master.config(menu=menubar)
+
+    def gui_options(self):
+        print("GUI Options")
 
     def select_file(self):
         """File selector dialog/"""
@@ -110,6 +116,12 @@ def main():
 
     # Default fonts are tiny on high dpi displays
     set_fonts()
+
+    # Set style
+    #TODO: This is not portable
+    style = ttk.Style()
+    style.theme_use('clam')
+    
 
     # Hack to enable "show hidden files" button.  This is an undocumented
     # 'feature' so wrap it all in try...except in case it throws in the future.

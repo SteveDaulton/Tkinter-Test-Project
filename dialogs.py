@@ -4,6 +4,7 @@ from functools import partial
 
 import tkinter as tk
 from tkinter import font
+from tkinter import ttk
 import webbrowser
 
 
@@ -38,7 +39,7 @@ class About(tk.Toplevel):
         fnt.configure(underline=True)
         link.configure(font=fnt)
         link.pack(pady=10)
-        self.close = tk.Button(self, text="Close", command=self.destroy)
+        self.close = ttk.Button(self, text="Close", command=self.destroy)
         self.close.pack(side="bottom")
 
         # Bind web link label
