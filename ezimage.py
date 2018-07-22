@@ -13,6 +13,7 @@ from tkinter import ttk
 from tkinter import filedialog as fd
 
 import dialogs
+from functools import partial
 
 
 VERSION = "0.0.1"
@@ -61,6 +62,15 @@ class Application(tk.Frame):    # pylint: disable=too-many-ancestors
         optmenu.add_command(label="Interface...", command=self.gui_options)
         menubar.add_cascade(label="Options", menu=optmenu)
 
+        stylemenu = tk.Menu(optmenu, tearoff=0)
+        self.style = ttk.Style()
+        themes = self.style.theme_names()
+        for theme in themes:
+            #TODO: Indicate which one is currently selected.
+            stylemenu.add_command(label=theme,
+                                  command=partial(self.set_style, theme))
+        optmenu.add_cascade(label="Style Selection", menu=stylemenu)
+
         # Help menu
         helpmenu = tk.Menu(menubar, tearoff=0)
         helpmenu.add_command(label="Help...")
@@ -72,6 +82,10 @@ class Application(tk.Frame):    # pylint: disable=too-many-ancestors
 
     def gui_options(self):
         print("GUI Options")
+
+    def set_style(self, theme_name):
+        print(theme_name)
+        self.style.theme_use(theme_name)
 
     def select_file(self):
         """File selector dialog/"""
@@ -121,7 +135,7 @@ def main():
     set_fonts()
 
     # Set style
-    #TODO: This is not portable
+    #TODO: get style from saved configuration
     style = ttk.Style()
     style.theme_use('clam')
     
