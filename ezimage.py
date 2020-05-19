@@ -20,7 +20,8 @@ from tkinter import filedialog as fd
 import dialogs
 
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
+CONFDIR = ".config/AudioNyq"
 
 class Application(tk.Frame):    # pylint: disable=too-many-ancestors
     """Main application."""
@@ -179,8 +180,8 @@ def config_file():
     """Return fully qualified config file name"""
     home = os.path.expanduser("~")
     #Ensure that  path exists
-    Path(os.path.join(home, ".config/AudioNyq")).mkdir(parents=True, exist_ok=True)
-    return os.path.join(home, ".config/AudioNyq/EZImage.conf")
+    Path(os.path.join(home, CONFDIR)).mkdir(parents=True, exist_ok=True)
+    return os.path.join(home, CONFDIR, "EZImage.conf")
 
 
 def write_default_fonts():
@@ -188,8 +189,8 @@ def write_default_fonts():
     config = configparser.ConfigParser()
     config.read(config_file())
     for font in tk.font.names():
-        f = tk.font.nametofont(font)
-        config['DEFAULT'][font] = str(f.actual())
+        fnt = tk.font.nametofont(font)
+        config['DEFAULT'][font] = str(fnt.actual())
     try:
         with open(config_file(), 'w') as configfile:
             config.write(configfile)
@@ -212,15 +213,15 @@ def main():
     # Default fonts are tiny on high dpi displays
     #set_fonts()
     write_default_fonts()
-    
-    f = tk.font.nametofont("TkDefaultFont")
-    
-    tk.font.nametofont("TkDefaultFont").configure(underline=f.actual('underline'),
-                                                  family=f.actual('family'),
-                                                  overstrike=f.actual('overstrike'),
-                                                  weight=f.actual('weight'),
-                                                  slant=f.actual('slant'),
-                                                  size=f.actual('size'))
+
+    fnt = tk.font.nametofont("TkDefaultFont")
+
+    tk.font.nametofont("TkDefaultFont").configure(underline=fnt.actual('underline'),
+                                                  family=fnt.actual('family'),
+                                                  overstrike=fnt.actual('overstrike'),
+                                                  weight=fnt.actual('weight'),
+                                                  slant=fnt.actual('slant'),
+                                                  size=fnt.actual('size'))
 
     # Set style
     style = ttk.Style()
