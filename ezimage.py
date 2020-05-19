@@ -9,6 +9,7 @@ Initial setup for the application occurs in Main(), which then launches the app.
 
 import os
 import configparser
+from pathlib import Path
 from functools import partial
 
 import tkinter as tk
@@ -177,6 +178,8 @@ def write_config(section, key, value):
 def config_file():
     """Return fully qualified config file name"""
     home = os.path.expanduser("~")
+    #Ensure that  path exists
+    Path(os.path.join(home, ".config/AudioNyq")).mkdir(parents=True, exist_ok=True)
     return os.path.join(home, ".config/AudioNyq/EZImage.conf")
 
 
