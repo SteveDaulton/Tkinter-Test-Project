@@ -64,6 +64,8 @@ class Application(tk.Frame):    # pylint: disable=too-many-ancestors
 
         # Options menu
         optmenu = tk.Menu(menubar, tearoff=0)
+
+        # Font size
         optmenu.add_command(label="Interface...", command=self.gui_options)
         menubar.add_cascade(label="Options", menu=optmenu)
 
@@ -123,18 +125,18 @@ def about_dialog():
 def set_fonts(base_size=None):
     """Configure Tkinter's standard fonts"""
     if base_size is None:
-        base_size = 10
+        base_size = 0
     elif base_size < 6:
         base_size = 6
-    tk.font.nametofont("TkDefaultFont").configure(family='sans', size=base_size)
-    tk.font.nametofont("TkTextFont").configure(family='sans', size=base_size)
+    tk.font.nametofont("TkDefaultFont").configure(family='DejaVu Sans', size=base_size)
+    tk.font.nametofont("TkTextFont").configure(family='DejaVu Sans', size=base_size)
     tk.font.nametofont("TkFixedFont").configure(family='monospace', size=base_size)
-    tk.font.nametofont("TkMenuFont").configure(family='sans', size=base_size)
-    tk.font.nametofont("TkHeadingFont").configure(family='sans', size=base_size)
-    tk.font.nametofont("TkCaptionFont").configure(family='sans', size=base_size)
-    tk.font.nametofont("TkSmallCaptionFont").configure(family='sans', size=(base_size - 2))
-    tk.font.nametofont("TkTooltipFont").configure(family='sans', size=(base_size - 1))
-    tk.font.nametofont("TkIconFont").configure(family='sans', size=base_size)
+    tk.font.nametofont("TkMenuFont").configure(family='DejaVu Sans', size=base_size)
+    tk.font.nametofont("TkHeadingFont").configure(family='DejaVu Sans', size=base_size)
+    tk.font.nametofont("TkCaptionFont").configure(family='DejaVu Sans', size=base_size)
+    tk.font.nametofont("TkSmallCaptionFont").configure(family='DejaVu Sans', size=(base_size - 2))
+    tk.font.nametofont("TkTooltipFont").configure(family='DejaVu Sans', size=(base_size - 1))
+    tk.font.nametofont("TkIconFont").configure(family='DejaVu Sans', size=base_size)
 
 
 def read_config(section, key):
@@ -178,6 +180,19 @@ def config_file():
     return os.path.join(home, ".config/AudioNyq/EZImage.conf")
 
 
+def write_default_fonts():
+    """Write default font values to config"""
+    config = configparser.ConfigParser()
+    config.read(config_file())
+    for font in tk.font.names():
+        f = tk.font.nametofont(font)
+        config['DEFAULT'][font] = str(f.actual())
+    try:
+        with open(config_file(), 'w') as configfile:
+            config.write(configfile)
+    except IOError:
+        print("Unable to write configuration file")
+
 def main():
     """Initiate app and run it"""
     root = tk.Tk()          # Create the root window
@@ -192,7 +207,17 @@ def main():
     root.tk.call('tk', 'scaling', screen_height / 600)
 
     # Default fonts are tiny on high dpi displays
-    set_fonts()
+    #set_fonts()
+    write_default_fonts()
+    
+    f = tk.font.nametofont("TkDefaultFont")
+    
+    tk.font.nametofont("TkDefaultFont").configure(underline=f.actual('underline'),
+                                                  family=f.actual('family'),
+                                                  overstrike=f.actual('overstrike'),
+                                                  weight=f.actual('weight'),
+                                                  slant=f.actual('slant'),
+                                                  size=f.actual('size'))
 
     # Set style
     style = ttk.Style()
